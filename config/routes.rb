@@ -3,9 +3,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :editorships
-  resources :pages
-  resources :wikiblogs
+  resources :editorships, only: [:create, :destroy]
+  resources :pages, only: [:show, :create, :destroy]
+  resources :wikiblogs, only: [:index, :show, :create, :destroy]
   resources :users, only: [:show, :create]
 
   get "/me", to: "users#show_session"

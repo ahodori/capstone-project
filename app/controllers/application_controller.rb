@@ -1,3 +1,3 @@
 class ApplicationController < ActionController::API
-    include ApplicationController::Cookies
+    include ActionController::Cookies
 end
