@@ -1,0 +1,2 @@
+class WikiblogsController < ApplicationController
+end

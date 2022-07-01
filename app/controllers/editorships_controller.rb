@@ -1,0 +1,2 @@
+class EditorshipsController < ApplicationController
+end
