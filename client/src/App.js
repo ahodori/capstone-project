@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -44,8 +44,8 @@ function App() {
         } else {
           res.json().then((json) => {
             console.log(json);
-            //console.error("Error:", json.error);
-            //setLoginErrorText(json.error);   
+            console.error("Error:", json.error);
+            setLoginErrorText(json.error);   
           })
         }
       });
@@ -88,6 +88,7 @@ function App() {
               <DialogContent>
                 <TextField autoFocus fullWidth label="Username" type="text" variant="standard" value={loginFormUsername} onChange={handleChangeLoginUsername}/>
                 <TextField fullWidth label="Password" type="password" variant="standard" value={loginFormPassword} onChange={handleChangeLoginPassword}/>
+                {loginErrorText && <Alert severity="error">{loginErrorText}</Alert>}
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleLogin}>Log in</Button>
