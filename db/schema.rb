@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_01_130012) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_06_155104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,9 +23,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_01_130012) do
     t.index ["wikiblog_id"], name: "index_editorships_on_wikiblog_id"
   end
 
+  create_table "page_versions", force: :cascade do |t|
+    t.text "text"
+    t.bigint "page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.boolean "is_current_version"
+    t.index ["page_id"], name: "index_page_versions_on_page_id"
+    t.index ["user_id"], name: "index_page_versions_on_user_id"
+  end
+
   create_table "pages", force: :cascade do |t|
     t.string "path"
-    t.text "text"
     t.boolean "is_index"
     t.bigint "wikiblog_id"
     t.datetime "created_at", null: false

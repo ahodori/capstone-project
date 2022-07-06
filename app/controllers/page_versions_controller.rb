@@ -1,0 +1,2 @@
+class PageVersionsController < ApplicationController
+end

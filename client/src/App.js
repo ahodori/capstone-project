@@ -39,6 +39,7 @@ function App() {
             console.log(json);
             setCurrentUser(json);
             setIsLoggedIn(true);
+            setDisplayLoginModal(false);
             setLoginErrorText("");
           })
         } else {
@@ -63,7 +64,6 @@ function App() {
     e.preventDefault();
     console.log("Display Login pressed");
     setDisplayLoginModal(true);
-    setIsLoggedIn(true);
   }
 
   function handleOpenSignup(e) {
