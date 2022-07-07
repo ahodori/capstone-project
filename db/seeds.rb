@@ -10,6 +10,7 @@ User.destroy_all
 Editorship.destroy_all
 Wikiblog.destroy_all
 Page.destroy_all
+PageVersion.destroy_all
 
 
 u1 = User.create(username: "albert", password: "123", password_confirmation: "123", is_admin: true)
@@ -19,6 +20,11 @@ u4 = User.create(username: "dbert", password: "123456", password_confirmation: "
 
 w1 = Wikiblog.create(name: "My blog 1", user_id: u1.id)
 
-p1 = Page.create(path: "/", text: "hi", is_index: true, wikiblog_id: w1.id)
+p1 = Page.create(path: "/", is_index: true, wikiblog_id: w1.id)
+
+pv1 = PageVersion.create(text: "hi", page_id: p1.id, user_id: p1.wikiblog.user.id, is_current_version: false)
+pv2 = PageVersion.create(text: "hi 2", page_id: p1.id, user_id: p1.wikiblog.user.id, is_current_version: true)
+pv3 = PageVersion.create(text: "hi 3", page_id: p1.id, user_id: p1.wikiblog.user.id, is_current_version: false)
+pv4 = PageVersion.create(text: "hi 4", page_id: p1.id, user_id: p1.wikiblog.user.id, is_current_version: false)
 
 e1 = Editorship.create(wikiblog_id: w1.id, user_id: u2.id)
