@@ -3,6 +3,8 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
+import Wikiblog from "./components/Wikiblog";
+import WikiblogEdit from "./components/WikiblogEdit";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -100,18 +102,18 @@ function App() {
                   handleOpenLogin={handleOpenLogin}
                   handleOpenSignup={handleOpenSignup}
                   handleLogout={handleLogout}/>
-          {/* <Routes>
-            <Route path="/" element={<Homepage/>}/>
+          <Routes>
+            {/* <Route path="/" element={<Homepage/>}/>
             <Route path="user">
               <Route path=":id" element={<UserProfile/>}/>
-            </Route>
+            </Route> */}
             <Route path="wikiblog">
               <Route path=":id">
-                <Route path="/" element={<Wikiblog/>}/>
-                <Route path="edit" element={<EditWikiblog/>}/>
+                <Route path="" element={<Wikiblog/>}/>
+                <Route path="edit" element={<WikiblogEdit/>}/>
               </Route>
             </Route>
-          </Routes> */}
+          </Routes>
         </div>
     </BrowserRouter>
   );

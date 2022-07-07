@@ -10,7 +10,7 @@ function Header({currentUser,
                 handleLogout}) {
     
     return (<div>
-        <AppBar component="nav">
+        <AppBar>
         <Toolbar>
           <Typography 
             variant="h6"
@@ -40,6 +40,7 @@ function Header({currentUser,
           </Box>
         </Toolbar>
       </AppBar>
+      <Toolbar/>
     </div>)
 }
 
