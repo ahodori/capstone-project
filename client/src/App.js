@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Wikiblog from "./components/Wikiblog";
 import WikiblogEdit from "./components/WikiblogEdit";
+import Homepage from "./components/Homepage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -16,6 +17,7 @@ function App() {
   const [loginFormUsername, setLoginFormUsername] = useState("");
   const [loginFormPassword, setLoginFormPassword] = useState("");
   const [loginErrorText, setLoginErrorText] = useState("");
+
 
   //Change app state
   function handleLogin(e) {
@@ -103,8 +105,8 @@ function App() {
                   handleOpenSignup={handleOpenSignup}
                   handleLogout={handleLogout}/>
           <Routes>
-            {/* <Route path="/" element={<Homepage/>}/>
-            <Route path="user">
+            <Route path="/" element={<Homepage/>}/>
+            {/* <Route path="user">
               <Route path=":id" element={<UserProfile/>}/>
             </Route> */}
             <Route path="wikiblog">

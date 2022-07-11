@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_06_155104) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_11_135304) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,11 +35,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_155104) do
   end
 
   create_table "pages", force: :cascade do |t|
-    t.string "path"
     t.boolean "is_index"
     t.bigint "wikiblog_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
     t.index ["wikiblog_id"], name: "index_pages_on_wikiblog_id"
   end
 

@@ -28,7 +28,7 @@ function WikiblogEdit() {
                 textareaRef.current.selectionStart = textareaRef.current.selectionEnd = selectionStart+1;
             }
         }
-        console.log(e);
+        //console.log(e);
     }
 
     function handleSubmit(e) {

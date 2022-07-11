@@ -27,6 +27,7 @@ class WikiblogsController < ApplicationController
     def destroy
         wikiblog = Wikiblog.destroy(params[:id])
         head :no_content
+    end
 
     private
 
@@ -35,6 +36,6 @@ class WikiblogsController < ApplicationController
     end
 
     def not_found
-        render json: { error: "Editorship not found" }, status: 404
+        render json: { error: "Wikiblog not found" }, status: 404
     end
 end
