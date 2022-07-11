@@ -1,6 +1,7 @@
 import { Toolbar, Typography, Button, IconButton, Box } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
+import { Link } from 'react-router-dom';
 
 
 function Header({currentUser,
@@ -17,7 +18,7 @@ function Header({currentUser,
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            Wikiblog!
+            <Link to={"/"}>Wikiblog!</Link>
           </Typography>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
