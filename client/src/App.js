@@ -21,6 +21,10 @@ function App() {
   const [loginFormPassword, setLoginFormPassword] = useState("");
   const [loginErrorText, setLoginErrorText] = useState("");
 
+  const [signupFormUsername, setSignupFormUsername] = useState("");
+  const [signupFormPassword, setSignupFormPassword] = useState("");
+  const [signupFormPasswordConfirmation, setSignupFormPasswordConfirmation] = useState("");
+
   const [newWikiblogFormName, setNewWikiblogFormName] = useState("");
 
 
@@ -67,10 +71,21 @@ function App() {
     setIsLoggedIn(false);
   }
 
+
+  //submitting signup (do not enable yet)
+  function handleSignup(e) {
+    e.preventDefault();
+    console.log("submitting signup");
+  }
+
+
+  //submitting new wikiblog
   function handleSubmitNewWikiblog(e) {
     e.preventDefault();
     console.log("submitting to create new wikiblog");
   }
+
+
 
   //Display features on page
   function handleOpenLogin(e) {
@@ -82,6 +97,7 @@ function App() {
   function handleOpenSignup(e) {
     e.preventDefault();
     console.log("Display Signup pressed");
+    setDisplaySignupModal(true);
   }
 
   function handleOpenNewWikiblog(e) {
@@ -105,6 +121,18 @@ function App() {
               <DialogActions>
                 <Button onClick={handleLogin}>Log in</Button>
               </DialogActions>
+          </Dialog>
+
+          <Dialog open={displaySignupModal} onClose={() => setDisplaySignupModal(false)}>
+            <DialogTitle>Sign up</DialogTitle>
+            <DialogContent>
+              <TextField autoFocus fullWidth label="Username" type="text" variant="standard" value={signupFormUsername} onChange={(e) => setSignupFormUsername(e.target.value)}/>
+              <TextField fullWidth label="Password" type="password" variant="standard" value={signupFormPassword} onChange={(e) => setSignupFormPassword(e.target.value)}/>
+              <TextField fullWidth label="Confirm Password" type="password" variant="standard" value={signupFormPasswordConfirmation} onChange={(e) => setSignupFormPasswordConfirmation(e.target.value)}/>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleSignup}>Submit</Button>
+            </DialogActions>
           </Dialog>
 
           <Dialog open={displayNewWikiblogModal} onClose={() => setDisplayNewWikiblogModal(false)}>
