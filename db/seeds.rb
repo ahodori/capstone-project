@@ -30,8 +30,28 @@ end
 
 wikiblog_ids = Wikiblog.pluck(:id)
 
+#Create editorships NOT linked to wikiblog creator
 (0..3).each do |i|
     Editorship.create(wikiblog_id: wikiblog_ids.sample, user_id: user_ids.sample)
+end
+
+#create 10 random pages
+(0..10).each do |i|
+    p = Page.create(title: Faker::Hobby.activity, wikiblog_id: wikiblog_ids.sample)
+    pv = PageVersion.create(text: Faker::Markdown.sandwich(sentences: 6, repeat: 3), page_id: p.id, user_id: p.wikiblog.user.id, is_current_version: true)
+end
+
+page_ids = Page.pluck(:id)
+
+#create 15 random pageversions on random pages
+(0..15).each do |i|
+    p = Page.find(page_ids.sample)
+    editors = p.wikiblog.editorships.pluck(:id)
+    editor = Editorship.find(editors.sample).user_id
+    pv = PageVersion.create(text: Faker::Markdown.sandwich(sentences: 6, repeat: 3), page_id: p.id, user_id: editor)
+    unless pv.valid?
+        pp pv.errors.full_messages
+    end
 end
 
 w1 = Wikiblog.create(name: "My blog 1", user_id: u1.id)
