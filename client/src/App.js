@@ -6,17 +6,22 @@ import Header from "./components/Header";
 import Wikiblog from "./components/Wikiblog";
 import WikiblogEdit from "./components/WikiblogEdit";
 import Homepage from "./components/Homepage";
+import NewWikiblog from "./components/NewWikiblog";
 
 function App() {
+
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn]   = useState(false);
 
   const [displayLoginModal, setDisplayLoginModal] = useState(false);
   const [displaySignupModal, setDisplaySignupModal] = useState(false);
+  const [displayNewWikiblogModal, setDisplayNewWikiblogModal] = useState(false);
 
   const [loginFormUsername, setLoginFormUsername] = useState("");
   const [loginFormPassword, setLoginFormPassword] = useState("");
   const [loginErrorText, setLoginErrorText] = useState("");
+
+  const [newWikiblogFormName, setNewWikiblogFormName] = useState("");
 
 
   //Change app state
@@ -62,6 +67,10 @@ function App() {
     setIsLoggedIn(false);
   }
 
+  function handleSubmitNewWikiblog(e) {
+    e.preventDefault();
+    console.log("submitting to create new wikiblog");
+  }
 
   //Display features on page
   function handleOpenLogin(e) {
@@ -75,13 +84,12 @@ function App() {
     console.log("Display Signup pressed");
   }
 
-  function handleChangeLoginUsername(e) {
-    setLoginFormUsername(e.target.value);
+  function handleOpenNewWikiblog(e) {
+    e.preventDefault();
+    console.log("opening new wikiblog modal");
+    setDisplayNewWikiblogModal(true);
   }
 
-  function handleChangeLoginPassword(e) {
-    setLoginFormPassword(e.target.value);
-  }
 
   return (
     <BrowserRouter>
@@ -90,8 +98,8 @@ function App() {
           <Dialog open={displayLoginModal} onClose={() => setDisplayLoginModal(false)} >
               <DialogTitle>Log in</DialogTitle>
               <DialogContent>
-                <TextField autoFocus fullWidth label="Username" type="text" variant="standard" value={loginFormUsername} onChange={handleChangeLoginUsername}/>
-                <TextField fullWidth label="Password" type="password" variant="standard" value={loginFormPassword} onChange={handleChangeLoginPassword}/>
+                <TextField autoFocus fullWidth label="Username" type="text" variant="standard" value={loginFormUsername} onChange={(e) => setLoginFormUsername(e.target.value)}/>
+                <TextField fullWidth label="Password" type="password" variant="standard" value={loginFormPassword} onChange={(e) => setLoginFormPassword(e.target.value)}/>
                 {loginErrorText && <Alert severity="error">{loginErrorText}</Alert>}
               </DialogContent>
               <DialogActions>
@@ -99,20 +107,37 @@ function App() {
               </DialogActions>
           </Dialog>
 
+          <Dialog open={displayNewWikiblogModal} onClose={() => setDisplayNewWikiblogModal(false)}>
+            <DialogTitle>New Wikiblog</DialogTitle>
+            <DialogContent>
+              <TextField autoFocus fullWidth label="Wikiblog Name" type="text" variant="standard" value={newWikiblogFormName} onChange={(e) => setNewWikiblogFormName(e.target.value)}/>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleSubmitNewWikiblog}>Submit</Button>
+            </DialogActions>
+          </Dialog>
+
           <Header currentUser={currentUser}
                   isLoggedIn={isLoggedIn}
                   handleOpenLogin={handleOpenLogin}
                   handleOpenSignup={handleOpenSignup}
                   handleLogout={handleLogout}/>
+
           <Routes>
-            <Route path="/" element={<Homepage/>}/>
+            <Route index element={<Homepage handleOpenNewWikiblog={handleOpenNewWikiblog}/>}/>
             {/* <Route path="user">
               <Route path=":id" element={<UserProfile/>}/>
             </Route> */}
             <Route path="wikiblog">
-              <Route path=":id">
+              {/* <Route path="new" element={<NewWikiblog/>}/> */}
+              <Route path=":wikiblogid">
                 <Route path="" element={<Wikiblog/>}/>
-                <Route path="edit" element={<WikiblogEdit/>}/>
+                {/* <Route path="edit" element={<WikiblogEdit/>}/> */}
+                {/* <Route path="new" element={<NewWikiblogPage/>}/> */}
+                <Route path=":pageid">
+                  {/* <Route path=""  element={<WikiblogPage/>}/> */}
+                  {/* <Route path="edit" element={<WikiblogPageEdit/>}/> */}
+                </Route>
               </Route>
             </Route>
           </Routes>

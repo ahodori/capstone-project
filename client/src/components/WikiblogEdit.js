@@ -13,7 +13,7 @@ function WikiblogEdit() {
     function handleKeyDown(e) {
         let insertCharacter;
 
-        if (e.key == "Tab" && e.shiftKey) {
+        if (e.key === "Tab" && e.shiftKey) {
             e.preventDefault();
             insertCharacter = `\t`;
         }
