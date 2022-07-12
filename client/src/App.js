@@ -1,5 +1,5 @@
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
@@ -28,6 +28,19 @@ function App() {
   const [newWikiblogFormName, setNewWikiblogFormName] = useState("");
   const [newWikiblogErrorText, setNewWikiblogErrorText] = useState("");
 
+  useEffect(() => {
+    fetch("/me")
+    .then(res => {
+      console.log(res);
+      if (res.ok) {
+        res.json().then((json) => {
+          console.log(json);
+          setCurrentUser(json);
+          setIsLoggedIn(true);
+        });
+      }
+    })
+  }, [])
 
   //Change app state
   function handleLogin(e) {
