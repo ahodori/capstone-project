@@ -26,6 +26,7 @@ function App() {
   const [signupFormPasswordConfirmation, setSignupFormPasswordConfirmation] = useState("");
 
   const [newWikiblogFormName, setNewWikiblogFormName] = useState("");
+  const [newWikiblogErrorText, setNewWikiblogErrorText] = useState("");
 
 
   //Change app state
@@ -83,6 +84,36 @@ function App() {
   function handleSubmitNewWikiblog(e) {
     e.preventDefault();
     console.log("submitting to create new wikiblog");
+
+    if (!isLoggedIn) {
+      setNewWikiblogErrorText("You must log in to create a new Wikiblog.");
+      return;
+    }
+
+    fetch("/wikiblogs", {
+       method: "POST",
+       headers: {
+        'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({
+        name: newWikiblogFormName,
+        user_id: currentUser.id
+       })
+    })
+    .then(res => {
+      console.log(res);
+      if (res.ok) {
+        res.json().then((json) => {
+          console.log(json);
+        })
+      } else {
+        res.json().then((json) => {
+          console.log(json);
+          setNewWikiblogErrorText(json.error);
+        })
+      }
+    });
+    
   }
 
 
@@ -139,6 +170,7 @@ function App() {
             <DialogTitle>New Wikiblog</DialogTitle>
             <DialogContent>
               <TextField autoFocus fullWidth label="Wikiblog Name" type="text" variant="standard" value={newWikiblogFormName} onChange={(e) => setNewWikiblogFormName(e.target.value)}/>
+              {newWikiblogErrorText && <Alert severity="error">{newWikiblogErrorText}</Alert>}
             </DialogContent>
             <DialogActions>
               <Button onClick={handleSubmitNewWikiblog}>Submit</Button>

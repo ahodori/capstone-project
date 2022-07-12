@@ -1,7 +1,7 @@
 import ReactMarkdown from "react-markdown"
 import ReactDom from "react-dom"
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function WikiblogPage({showIndex}) {
     const [wikiblogData, setWikiblogData] = useState({});
@@ -47,14 +47,26 @@ function WikiblogPage({showIndex}) {
                 })
             }
         })
-    }, [wikiblogData])
+    }, [wikiblogData, pageid])
 
 
     return (<div>
+        {Object.keys(wikiblogData).length > 0 ?
+            <>
+                {wikiblogData.pages.map((page) => {
+                    return (<div>
+                        <Link to={"/wikiblog/"+wikiblogData.id+"/"+page.id}>{page.title}</Link>
+                    </div>);
+                })}
+            </>
+        :
+            <>Loading wikiblog...</>
+        }
+
         {Object.keys(pageData).length > 0 ? 
             <ReactMarkdown>{pageData.text}</ReactMarkdown>
         :
-            <>Loading...</>
+            <>Loading page...</>
         }
     </div>)
 }

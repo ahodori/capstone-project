@@ -18,6 +18,8 @@ class WikiblogsController < ApplicationController
     def create
         wikiblog = Wikiblog.create(wikiblog_params)
         if wikiblog.valid?
+            page = Page.create(title: "My first page", wikiblog_id: wikiblog.id)
+            pageversion = PageVersion.create(text: "Example text!", page_id: page.id, user_id: params[:user_id])
             render json: wikiblog
         else
             render json: { errors: wikiblog.errors.full_messages }, status: 422
