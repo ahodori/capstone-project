@@ -7,6 +7,8 @@ import WikiblogPage from "./components/WikiblogPage";
 import WikiblogEdit from "./components/WikiblogEdit";
 import Homepage from "./components/Homepage";
 import NewWikiblog from "./components/NewWikiblog";
+import WikiblogPageEdit from "./components/WikiblogPageEdit";
+import UserProfile from "./components/UserProfile";
 
 function App() {
 
@@ -198,18 +200,18 @@ function App() {
 
           <Routes>
             <Route index element={<Homepage handleOpenNewWikiblog={handleOpenNewWikiblog}/>}/>
-            {/* <Route path="user">
+            <Route path="user">
               <Route path=":id" element={<UserProfile/>}/>
-            </Route> */}
+            </Route>
             <Route path="wikiblog">
               {/* <Route path="new" element={<NewWikiblog/>}/> */}
               <Route path=":wikiblogid">
                 <Route index element={<WikiblogPage showIndex={true}/>}/>
-                {/* <Route path="edit" element={<WikiblogEdit/>}/> */}
+                <Route path="edit" element={<WikiblogEdit/>}/>
                 {/* <Route path="new" element={<NewWikiblogPage/>}/> */}
                 <Route path=":pageid">
-                  <Route path=""  element={<WikiblogPage/>}/>
-                  {/* <Route path="edit" element={<WikiblogPageEdit/>}/> */}
+                  <Route path="edit" element={<WikiblogPageEdit/>}/>
+                  <Route index element={<WikiblogPage/>}/>
                 </Route>
               </Route>
             </Route>

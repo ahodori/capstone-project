@@ -1,14 +1,16 @@
 import ReactMarkdown from "react-markdown"
 import ReactDom from "react-dom"
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import remarkGfm from 'remark-gfm'
+import { Button } from "@mui/material";
 
 function WikiblogPage({showIndex}) {
     const [wikiblogData, setWikiblogData] = useState({});
     const [pageData, setPageData] = useState({});
 
     let { wikiblogid, pageid } = useParams();
+    let navigate = useNavigate();
 
     useEffect(() => {
         fetch("/wikiblogs/"+wikiblogid)
@@ -50,10 +52,18 @@ function WikiblogPage({showIndex}) {
         })
     }, [wikiblogData, pageid])
 
+    function handlePressEditWikiblog(e) {
+        e.preventDefault();
+        navigate("edit");
+    }
+
 
     return (<div>
         {Object.keys(wikiblogData).length > 0 ?
             <>
+                <Button onClick={handlePressEditWikiblog}>Edit Wikiblog</Button>
+                <Button>Edit Page</Button>
+
                 {wikiblogData.pages.map((page) => {
                     return (<div>
                         <Link to={"/wikiblog/"+wikiblogData.id+"/"+page.id}>{page.title}</Link>

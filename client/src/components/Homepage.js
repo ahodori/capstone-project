@@ -10,6 +10,7 @@ function Homepage({handleOpenNewWikiblog}) {
             console.log(res);
             if (res.ok) {
                 res.json().then((json) => {
+                    console.log(json);
                     setWikiblogsList(json);
                 })
             } else {
@@ -29,7 +30,7 @@ function Homepage({handleOpenNewWikiblog}) {
             {wikiblogsList.length > 0 ?
                 wikiblogsList.map((wikiblogEntry) => {
                     return (<div key={wikiblogEntry.id}>
-                        <h3><Link to={"/wikiblog/"+wikiblogEntry.id}>{wikiblogEntry.name}</Link> by {wikiblogEntry.user.username}</h3>
+                        <h3><Link to={"/wikiblog/"+wikiblogEntry.id}>{wikiblogEntry.name}</Link> by <Link to={"/user/"+wikiblogEntry.user.id}>{wikiblogEntry.user.username}</Link></h3>
                         <p>{wikiblogEntry.pagenum} pages</p>
                         <p>Updated {wikiblogEntry.updated}</p>
                     </div>)

@@ -2,7 +2,7 @@ class WikiblogSerializer < ActiveModel::Serializer
   attributes :id, :name, :user, :pagenum, :updated
 
   def user
-    {user_id: object.user.id, username: object.user.username}
+    {id: object.user.id, username: object.user.username}
   end
 
   def pagenum
