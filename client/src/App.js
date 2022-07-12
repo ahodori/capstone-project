@@ -3,7 +3,7 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
-import Wikiblog from "./components/Wikiblog";
+import WikiblogPage from "./components/WikiblogPage";
 import WikiblogEdit from "./components/WikiblogEdit";
 import Homepage from "./components/Homepage";
 import NewWikiblog from "./components/NewWikiblog";
@@ -159,11 +159,11 @@ function App() {
             <Route path="wikiblog">
               {/* <Route path="new" element={<NewWikiblog/>}/> */}
               <Route path=":wikiblogid">
-                <Route path="" element={<Wikiblog/>}/>
+                <Route index element={<WikiblogPage showIndex={true}/>}/>
                 {/* <Route path="edit" element={<WikiblogEdit/>}/> */}
                 {/* <Route path="new" element={<NewWikiblogPage/>}/> */}
                 <Route path=":pageid">
-                  {/* <Route path=""  element={<WikiblogPage/>}/> */}
+                  <Route path=""  element={<WikiblogPage/>}/>
                   {/* <Route path="edit" element={<WikiblogPageEdit/>}/> */}
                 </Route>
               </Route>

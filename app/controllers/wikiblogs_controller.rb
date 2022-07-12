@@ -9,7 +9,7 @@ class WikiblogsController < ApplicationController
     def show
         wikiblog = Wikiblog.find_by(id: params[:id])
         if wikiblog
-            render json: wikiblog
+            render json: wikiblog, serializer: SingleWikiblogSerializer
         else
             render json: { error: "Wikiblog not found" }, status: 404
         end
