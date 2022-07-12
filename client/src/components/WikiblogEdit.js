@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm'
 
 function WikiblogEdit() {
     const textareaRef = useRef();
@@ -41,7 +42,7 @@ function WikiblogEdit() {
             <textarea ref={textareaRef} onChange={handleChangePageText} onKeyDown={handleKeyDown}/>
             <button type="submit">Submit</button>
         </form>
-        <ReactMarkdown>{pageText}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{pageText}</ReactMarkdown>
     </div>)
 }
 

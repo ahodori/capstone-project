@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown"
 import ReactDom from "react-dom"
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import remarkGfm from 'remark-gfm'
 
 function WikiblogPage({showIndex}) {
     const [wikiblogData, setWikiblogData] = useState({});
@@ -64,7 +65,7 @@ function WikiblogPage({showIndex}) {
         }
 
         {Object.keys(pageData).length > 0 ? 
-            <ReactMarkdown>{pageData.text}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{pageData.text}</ReactMarkdown>
         :
             <>Loading page...</>
         }
