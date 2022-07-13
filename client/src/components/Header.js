@@ -1,6 +1,7 @@
 import { Toolbar, Typography, Button, IconButton, Box, Avatar } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
+import { deepPurple } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
 
 
@@ -46,7 +47,7 @@ function Header({currentUser,
               </>
             :
               <>
-                <Link to={"/user/"+currentUser.id}><Avatar sx={{ bgcolor: "deepPurple" }}/></Link>
+                <Link to={"/user/"+currentUser.id}><Avatar sx={{ bgcolor: deepPurple[500] }}/></Link>
               </>
             }
           </Box>
