@@ -1,10 +1,38 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
 
 function WikiblogPageEdit() {
     const textareaRef = useRef();
     const [pageText, setPageText] = useState("");
+
+    const [pageData, setPageData] = useState({});
+
+    let { wikiblogid, pageid } = useParams();
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        fetch("/pages/"+pageid)
+        .then(res => {
+            console.log(res);
+            if (res.ok) {
+                res.json().then((json) => {
+                    console.log(json);
+                    setPageData(json);
+                })
+            } else {
+                res.json().then((json) => {
+                    console.log(json);
+                })
+            }
+        })
+    }, []) 
+
+    useEffect(() => {
+        setPageText(pageData.text);
+        textareaRef.current.value = pageData.text;
+    }, [pageData])
 
     function handleChangePageText(e) {
         //console.log(e);

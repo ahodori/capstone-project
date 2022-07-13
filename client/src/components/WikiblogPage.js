@@ -54,7 +54,12 @@ function WikiblogPage({showIndex}) {
 
     function handlePressEditWikiblog(e) {
         e.preventDefault();
-        navigate("edit");
+        navigate("/wikiblog/"+wikiblogData.id+"/edit");
+    }
+
+    function handlePressEditPage(e) {
+        e.preventDefault();
+        navigate("/wikiblog/"+wikiblogData.id+"/"+pageData.id+"/edit")
     }
 
 
@@ -62,7 +67,7 @@ function WikiblogPage({showIndex}) {
         {Object.keys(wikiblogData).length > 0 ?
             <>
                 <Button onClick={handlePressEditWikiblog}>Edit Wikiblog</Button>
-                <Button>Edit Page</Button>
+                <Button onClick={handlePressEditPage}>Edit Page</Button>
 
                 {wikiblogData.pages.map((page) => {
                     return (<div>
