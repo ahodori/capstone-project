@@ -1,4 +1,4 @@
-import { Toolbar, Typography, Button, IconButton, Box } from '@mui/material';
+import { Toolbar, Typography, Button, IconButton, Box, Avatar } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import { Link } from 'react-router-dom';
@@ -37,6 +37,17 @@ function Header({currentUser,
                         Logout
                     </Button>
                 </>
+            }
+          </Box>
+          <Box>
+          {!isLoggedIn ?
+              <>
+                <Avatar>?</Avatar>
+              </>
+            :
+              <>
+                <Link to={"/user/"+currentUser.id}><Avatar sx={{ bgcolor: "deepPurple" }}/></Link>
+              </>
             }
           </Box>
         </Toolbar>

@@ -33,10 +33,8 @@ function App() {
   useEffect(() => {
     fetch("/me")
     .then(res => {
-      console.log(res);
       if (res.ok) {
         res.json().then((json) => {
-          console.log(json);
           setCurrentUser(json);
           setIsLoggedIn(true);
         });
@@ -47,8 +45,6 @@ function App() {
   //Change app state
   function handleLogin(e) {
     e.preventDefault();
-    console.log("Logging in with...")
-    console.log(loginFormUsername + ", " + loginFormPassword);
 
     fetch("/login", {
       method: "POST",
@@ -61,21 +57,21 @@ function App() {
       })
     })
       .then(res => {
-        console.log(res);
-
         if (res.ok) {
           res.json().then((json) => {
-            console.log(json);
             setCurrentUser(json);
             setIsLoggedIn(true);
             setDisplayLoginModal(false);
             setLoginErrorText("");
+            setLoginFormUsername("");
+            setLoginFormPassword("");
           })
         } else {
           res.json().then((json) => {
             console.log(json);
             console.error("Error:", json.error);
-            setLoginErrorText(json.error);   
+            setLoginErrorText(json.error);
+            setLoginFormPassword("");
           })
         }
       });
@@ -157,7 +153,7 @@ function App() {
     <BrowserRouter>
         <div className="App">
 
-          <Dialog open={displayLoginModal} onClose={() => setDisplayLoginModal(false)} >
+          <Dialog open={displayLoginModal} onClose={() => {setDisplayLoginModal(false); setLoginFormPassword(""); setLoginFormUsername("");}} >
               <DialogTitle>Log in</DialogTitle>
               <DialogContent>
                 <TextField autoFocus fullWidth label="Username" type="text" variant="standard" value={loginFormUsername} onChange={(e) => setLoginFormUsername(e.target.value)}/>
@@ -210,7 +206,7 @@ function App() {
                 <Route path="edit" element={<WikiblogEdit/>}/>
                 {/* <Route path="new" element={<NewWikiblogPage/>}/> */}
                 <Route path=":pageid">
-                  <Route path="edit" element={<WikiblogPageEdit/>}/>
+                  <Route path="edit" element={<WikiblogPageEdit currentUser={currentUser} isLoggedIn={isLoggedIn}/>}/>
                   <Route index element={<WikiblogPage/>}/>
                 </Route>
               </Route>

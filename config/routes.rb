@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   resources :editorships, only: [:create, :destroy]
   resources :pages, only: [:show, :create, :destroy]
+  resources :page_versions, only: [:create]
   resources :wikiblogs, only: [:index, :show, :create, :destroy]
   resources :users, only: [:show, :create]
 
