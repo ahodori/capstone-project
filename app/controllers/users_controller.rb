@@ -28,9 +28,24 @@ class UsersController < ApplicationController
         end
     end
 
+    def index
+        search = params[:search]
+        puts search
+        if search
+            users = User.all.where("username LIKE :prefix", prefix: "#{search}%").limit(3)
+            render json: users
+        else
+            render json: { error: "No filtering string 'search' provided"}, status: 422
+        end
+    end
+
     private
 
     def user_params
         params.permit(:username, :password, :password_confirmation)
+    end
+
+    def search_params
+        params.permit(:search)
     end
 end

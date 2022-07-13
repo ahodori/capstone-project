@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :pages, only: [:show, :create, :destroy]
   resources :page_versions, only: [:create]
   resources :wikiblogs, only: [:index, :show, :create, :destroy]
-  resources :users, only: [:show, :create]
+  resources :users, only: [:show, :create, :index]
 
   get "/me", to: "users#show_session"
   post "/login", to: "sessions#create"
