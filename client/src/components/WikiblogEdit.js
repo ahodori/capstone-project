@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
 import { useParams, useNavigate, Link } from "react-router-dom"
-import { Button, DialogContentText, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
+import { Button, DialogContentText, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Alert } from "@mui/material";
 
 function WikiblogEdit() {
     const [wikiblogData, setWikiblogData] = useState({});
+
+    const [generalErrorText, setGeneralErrorText] = useState("");
 
     const [searchedUsers, setSearchedUsers] = useState([]);
 
@@ -16,6 +18,10 @@ function WikiblogEdit() {
     const [showAddPageModal, setShowAddPageModal] = useState(false);
     const [addPageModalName, setAddPageModalName] = useState("");
     const [addPageErrorText, setAddPageErrorText] = useState("");
+
+    const [showRenamePageModal, setShowRenamePageModal] = useState(false);
+    const [renamePageModalName, setRenamePageModalName] = useState("");
+    const [renamingPage, setRenamingPage] = useState({});
 
     let { wikiblogid } = useParams();
     let navigate = useNavigate();
@@ -62,6 +68,10 @@ function WikiblogEdit() {
         setAddPageModalName(e.target.value);
     }
 
+    function updateRenamePageModalName(e) {
+        setRenamePageModalName(e.target.value);
+    }
+
     function handleAddEditor(e, user) {
         e.preventDefault();
 
@@ -79,6 +89,7 @@ function WikiblogEdit() {
             if (res.ok) {
             res.json().then((json) => {
                 console.log(json);
+                window.location.reload();
             })
             } else {
             res.json().then((json) => {
@@ -115,6 +126,32 @@ function WikiblogEdit() {
         });
     }
 
+    function handleSubmitRenamePage(e) {
+        e.preventDefault();
+
+        fetch("/pages/"+renamingPage.id, {
+            method: "PATCH",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              title: renamePageModalName
+            })
+          })
+        .then(res => {
+            if (res.ok) {
+            res.json().then((json) => {
+                console.log(json);
+                window.location.reload();
+            })
+            } else {
+            res.json().then((json) => {
+                console.log(json);
+            })
+            }
+        });
+    }
+
     function handlePressAddEditor(e) {
         e.preventDefault();
         setShowAddEditorModal(true);
@@ -123,6 +160,37 @@ function WikiblogEdit() {
     function handlePressAddPage(e) {
         e.preventDefault();
         setShowAddPageModal(true);
+    }
+
+    function handlePressRenamePage(e, page) {
+        e.preventDefault();
+        setRenamingPage(page);
+        setRenamePageModalName(page.title);
+        setShowRenamePageModal(true);
+    }
+
+    function handleDeletePage(e, page) {
+        e.preventDefault();
+
+        fetch("/pages/"+page.id, {
+            method: "DELETE",
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+        .then(res => {
+            if (res.ok) {
+            res.json().then((json) => {
+                console.log(json);
+                window.location.reload();
+            })
+            } else {
+            res.json().then((json) => {
+                console.log(json);
+                setGeneralErrorText(json.error);
+            })
+            }
+        });
     }
 
     return (<div>
@@ -156,6 +224,18 @@ function WikiblogEdit() {
                     </DialogActions>
                 </Dialog>
 
+                <Dialog open={showRenamePageModal} onClose={() => setShowRenamePageModal(false)}>
+                    <DialogTitle>Rename Page</DialogTitle>
+                    <DialogContent>
+                        <TextField autoFocus label="title" fullWidth variant="standard" value={renamePageModalName} onChange={updateRenamePageModalName}/>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleSubmitRenamePage}>Rename Page</Button>
+                    </DialogActions>
+                </Dialog>
+
+                {generalErrorText && <Alert severity="error">{generalErrorText}</Alert>}
+
                 <h2>{wikiblogData.name} by <Link to={"/user/"+wikiblogData.user.id}>{wikiblogData.user.username}</Link></h2>
 
                 <Button onClick={handlePressAddPage}>Add Page</Button>
@@ -164,6 +244,9 @@ function WikiblogEdit() {
                     return (<div key={page.id}>
                         <p>{page.is_index && <>Index: </>} <Link to={"/wikiblog/"+wikiblogData.id+"/"+page.id}>{page.title}</Link></p>
                         <p>Updated {page.updated}</p>
+                        <Button onClick={(e) => handlePressRenamePage(e, page)}>Rename Page</Button>
+                        <Button onClick={(e) => handleDeletePage(e, page)}>Delete Page</Button>
+                        <br/>
                     </div>)
                 })}
 
