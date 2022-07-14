@@ -16,6 +16,8 @@ class WikiblogsController < ApplicationController
     end
 
     def create
+        return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
+
         wikiblog = Wikiblog.create(wikiblog_params)
         if wikiblog.valid?
             page = Page.create(title: "My first page", wikiblog_id: wikiblog.id)
@@ -27,7 +29,13 @@ class WikiblogsController < ApplicationController
     end
 
     def destroy
-        wikiblog = Wikiblog.destroy(params[:id])
+        return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
+
+        wikiblog = Wikiblog.find_by(id: params[:id])
+        return render json: { error: "Wikiblog not found" }, status: 404 unless wikiblog
+        return render json: { error: "Not authorized" }, status: :unauthorized unless wikiblog.user_id == session[:user_id]
+
+        wikiblog.destroy
         head :no_content
     end
 
