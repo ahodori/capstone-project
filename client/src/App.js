@@ -1,6 +1,6 @@
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
 import Header from "./components/Header";
 import WikiblogPage from "./components/WikiblogPage";
@@ -29,6 +29,8 @@ function App() {
 
   const [newWikiblogFormName, setNewWikiblogFormName] = useState("");
   const [newWikiblogErrorText, setNewWikiblogErrorText] = useState("");
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     fetch("/me")
@@ -116,6 +118,10 @@ function App() {
       if (res.ok) {
         res.json().then((json) => {
           console.log(json);
+          navigate("/wikiblog/"+json.id);
+          setDisplayNewWikiblogModal(false);
+          setNewWikiblogErrorText("");
+          setNewWikiblogFormName("");
         })
       } else {
         res.json().then((json) => {
@@ -150,7 +156,7 @@ function App() {
 
 
   return (
-    <BrowserRouter>
+
         <div className="App">
 
           <Dialog open={displayLoginModal} onClose={() => {setDisplayLoginModal(false); setLoginFormPassword(""); setLoginFormUsername("");}} >
@@ -213,7 +219,6 @@ function App() {
             </Route>
           </Routes>
         </div>
-    </BrowserRouter>
   );
 }
 
