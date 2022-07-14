@@ -124,6 +124,9 @@ function WikiblogEdit() {
             } else {
             res.json().then((json) => {
                 console.log(json);
+                if (json.error === "Not authorized") {
+                    setAddPageErrorText("Not authorized. Only editors can add new pages.")
+                }
             })
             }
         });
@@ -150,6 +153,9 @@ function WikiblogEdit() {
             } else {
             res.json().then((json) => {
                 console.log(json);
+                if (json.error === "Not authorized") {
+                    setSubmitErrorText("Not authorized. Only editors can rename pages.")
+                }
             })
             }
         });
@@ -221,6 +227,7 @@ function WikiblogEdit() {
                     <DialogTitle>Add Page</DialogTitle>
                     <DialogContent>
                         <TextField autoFocus label="title" fullWidth variant="standard" value={addPageModalName} onChange={updateAddPageModalName}/>
+                        {addPageErrorText && <Alert severity="error">{addPageErrorText}</Alert>}
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleSubmitAddPage}>Add Page</Button>
@@ -231,6 +238,7 @@ function WikiblogEdit() {
                     <DialogTitle>Rename Page</DialogTitle>
                     <DialogContent>
                         <TextField autoFocus label="title" fullWidth variant="standard" value={renamePageModalName} onChange={updateRenamePageModalName}/>
+                        {submitErrorText && <Alert severity="error">{submitErrorText}</Alert>}
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleSubmitRenamePage}>Rename Page</Button>
