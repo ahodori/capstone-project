@@ -94,6 +94,9 @@ function WikiblogEdit() {
             } else {
             res.json().then((json) => {
                 console.log(json);
+                if (json.error === "Not authorized") {
+                    setSubmitErrorText("Not authorized. Only Wikiblog creator can add new editors.")
+                }
             })
             }
         });
