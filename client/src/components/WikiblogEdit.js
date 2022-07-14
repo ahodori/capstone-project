@@ -13,6 +13,10 @@ function WikiblogEdit() {
     const [editorModalSearchText, setEditorModalSearchText] = useState("");
     const [submitErrorText, setSubmitErrorText] = useState("");
 
+    const [showAddPageModal, setShowAddPageModal] = useState(false);
+    const [addPageModalName, setAddPageModalName] = useState("");
+    const [addPageErrorText, setAddPageErrorText] = useState("");
+
     let { wikiblogid } = useParams();
     let navigate = useNavigate();
 
@@ -33,10 +37,6 @@ function WikiblogEdit() {
         })
     }, [])
 
-    function handlePressAddEditor(e) {
-        e.preventDefault();
-        setShowAddEditorModal(true);
-    }
 
     function updateEditorModalSearch(e) {
         setEditorModalSearchText(e.target.value);
@@ -58,6 +58,10 @@ function WikiblogEdit() {
         });
     }
 
+    function updateAddPageModalName(e) {
+        setAddPageModalName(e.target.value);
+    }
+
     function handleAddEditor(e, user) {
         e.preventDefault();
 
@@ -71,17 +75,54 @@ function WikiblogEdit() {
               wikiblog_id: wikiblogData.id
             })
           })
-            .then(res => {
-              if (res.ok) {
-                res.json().then((json) => {
-                    console.log(json);
-                })
-              } else {
-                res.json().then((json) => {
-                  console.log(json);
-                })
-              }
-            });
+        .then(res => {
+            if (res.ok) {
+            res.json().then((json) => {
+                console.log(json);
+            })
+            } else {
+            res.json().then((json) => {
+                console.log(json);
+            })
+            }
+        });
+    }
+
+    function handleSubmitAddPage(e) {
+        e.preventDefault();
+
+        fetch("/pages", {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              title: addPageModalName,
+              wikiblog_id: wikiblogData.id
+            })
+          })
+        .then(res => {
+            if (res.ok) {
+            res.json().then((json) => {
+                console.log(json);
+                window.location.reload();
+            })
+            } else {
+            res.json().then((json) => {
+                console.log(json);
+            })
+            }
+        });
+    }
+
+    function handlePressAddEditor(e) {
+        e.preventDefault();
+        setShowAddEditorModal(true);
+    }
+
+    function handlePressAddPage(e) {
+        e.preventDefault();
+        setShowAddPageModal(true);
     }
 
     return (<div>
@@ -105,7 +146,19 @@ function WikiblogEdit() {
                     </DialogContent>
                 </Dialog>
 
+                <Dialog open={showAddPageModal} onClose={() => setShowAddPageModal(false)}>
+                    <DialogTitle>Add Page</DialogTitle>
+                    <DialogContent>
+                        <TextField autoFocus label="title" fullWidth variant="standard" value={addPageModalName} onChange={updateAddPageModalName}/>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleSubmitAddPage}>Add Page</Button>
+                    </DialogActions>
+                </Dialog>
+
                 <h2>{wikiblogData.name} by <Link to={"/user/"+wikiblogData.user.id}>{wikiblogData.user.username}</Link></h2>
+
+                <Button onClick={handlePressAddPage}>Add Page</Button>
 
                 {wikiblogData.pages.reverse().map((page) => {
                     return (<div key={page.id}>

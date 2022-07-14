@@ -5,6 +5,11 @@ class PageSerializer < ActiveModel::Serializer
   end
 
   def updated
-    object.page_versions.find_by(is_current_version: true).updated_at
+    current_version = object.page_versions.find_by(is_current_version: true)
+    if current_version
+      current_version.updated_at
+    else
+      ""
+    end
   end
 end

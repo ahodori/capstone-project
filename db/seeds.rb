@@ -19,8 +19,8 @@ u1 = User.create(username: "albert", password: "123", password_confirmation: "12
 u2 = User.create(username: "bartholomew", password: "1234", password_confirmation: "1234")
 u3 = User.create(username: "cassius", password: "12345", password_confirmation: "12345")
 u4 = User.create(username: "dorcas", password: "123456", password_confirmation: "123456")
-u5 = User.create(usernane: "edgar", password: "1234567", password_confirmation: "1234567")
-u6 = User.create(usernane: "falconhoof", password: "12345678", password_confirmation: "12345678")
+u5 = User.create(username: "edgar", password: "1234567", password_confirmation: "1234567")
+u6 = User.create(username: "falconhoof", password: "12345678", password_confirmation: "12345678")
 
 user_ids = User.pluck(:id)
 
