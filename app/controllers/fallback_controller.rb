@@ -1,5 +1,5 @@
 class FallbackController < ApplicationController
     def index
-        render file: 'public/index.html'
+        redirect_back
       end
 end
