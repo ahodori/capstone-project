@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
-import { Button, TextField, Alert } from "@mui/material";
+import { Button, TextField, Alert, Paper, Grid } from "@mui/material";
 
 function WikiblogPageEdit({currentUser, isLoggedIn}) {
     const textareaRef = useRef();
@@ -18,15 +18,15 @@ function WikiblogPageEdit({currentUser, isLoggedIn}) {
     useEffect(() => {
         fetch("/pages/"+pageid)
         .then(res => {
-            console.log(res);
+            // console.log(res);
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log(json);
+                    // console.log(json);
                     setPageData(json);
                 })
             } else {
                 res.json().then((json) => {
-                    console.log(json);
+                    // console.log(json);
 
                 })
             }
@@ -66,7 +66,7 @@ function WikiblogPageEdit({currentUser, isLoggedIn}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(pageText);
+        // console.log(pageText);
 
         if (!isLoggedIn) {
             setSubmitErrorText("You must be logged in to submit an edit.");
@@ -85,15 +85,15 @@ function WikiblogPageEdit({currentUser, isLoggedIn}) {
             })
           })
             .then(res => {
-              console.log(res);
+              // console.log(res);
       
               if (res.ok) {
                 res.json().then((json) => {
-                  console.log(json);
+                  // console.log(json);
                 })
               } else {
                 res.json().then((json) => {
-                  console.log(json);
+                  // console.log(json);
                   if (json.error === "Not authorized") {
                     setSubmitErrorText("Not authorized. Only editors can submit edits to a page.")
                   } else {
@@ -110,14 +110,27 @@ function WikiblogPageEdit({currentUser, isLoggedIn}) {
     }
 
     return (<div>
-        <Button onClick={handlePressReturn}>Return to page</Button>
+        <Grid container>
+          <Grid item xs={6}>
+          <Button onClick={handlePressReturn}>Return to page</Button>
         <form onSubmit={handleSubmit}>
             <textarea ref={textareaRef} onChange={handleChangePageText} onKeyDown={handleKeyDown} cols={100} rows={50}/><br/>
             <Button type="submit">Submit change</Button>
         </form>
         {submitErrorText && <Alert severity="error">{submitErrorText}</Alert>}
-        <h2>Page preview:</h2>
+          </Grid>
+
+
+
+          <Grid item xs={6}>
+          <h2>Page preview:</h2>
+          <Paper elevation={3} sx={{ padding: 3, margin: 3, width: "60%"}}>
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{pageText}</ReactMarkdown>
+        </Paper>
+          </Grid>
+        </Grid>
+
+
     </div>)
 }
 

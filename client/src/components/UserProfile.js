@@ -1,3 +1,5 @@
+import { Card, Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
+import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -9,35 +11,50 @@ function UserProfile() {
     useEffect(() => {
         fetch("/users/"+id)
         .then(res => {
-            console.log(res);
+            // console.log(res);
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log(json);
+                    // console.log(json);
                     setUserData(json);
                 })
             } else {
                 res.json().then((json) => {
-                    console.log(json);
+                    // console.log(json);
                 })
             }
         })
     }, [])
     
-    return (<div>
-        {Object.keys(userData).length > 0 ?
+    return (<Container>
+        <Grid container>
+            <Grid item xs={5}>
+            {Object.keys(userData).length > 0 ?
             <>
-                <h3>{userData.username}</h3>
-                {userData.wikiblogs.map((wikiblog) => {
-                    return (<div key={wikiblog.id}>
-                        <Link to={"/wikiblog/"+wikiblog.id}>{wikiblog.name}</Link>
-                        <p>{wikiblog.pagenum} pages</p>
-                    </div>)
-                })}
+                <Card sx={{marginTop: 4, padding: 2, textAlign: "center"}}>
+                <h2>{userData.username}</h2>
+                <List>
+                    {userData.wikiblogs.map((wikiblog) => {
+                        return (<>
+                        <Divider/>
+                        <ListItem key={wikiblog.id}>
+                            <ListItemText>
+                            <b><Link to={"/wikiblog/"+wikiblog.id}>{wikiblog.name}</Link></b>
+                            </ListItemText>
+                            <p>{wikiblog.pagenum} pages</p>
+                        </ListItem>
+
+                        </>)
+                    })}                   
+                </List>
+
+                </Card>
             </>
         :
             <>Loading user...</>
         }
-    </div>)
+            </Grid>
+        </Grid>
+    </Container>)
 }
 
 export default UserProfile;

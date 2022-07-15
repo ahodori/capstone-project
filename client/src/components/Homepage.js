@@ -10,15 +10,15 @@ function Homepage({handleOpenNewWikiblog, isLoggedIn}) {
     useEffect(() => {
         fetch("/wikiblogs")
         .then(res => {
-            console.log(res);
+            // console.log(res);
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log(json);
+                    // console.log(json);
                     setWikiblogsList(json);
                 })
             } else {
                 res.json().then((json) => {
-                    console.log(json);
+                    // console.log(json);
                     console.error("Error:", json.error);  
                 })
             }

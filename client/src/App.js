@@ -72,7 +72,7 @@ function App() {
           })
         } else {
           res.json().then((json) => {
-            console.log(json);
+            // console.log(json);
             console.error("Error:", json.error);
             setLoginErrorText(json.error);
             setLoginFormPassword("");
@@ -116,10 +116,10 @@ function App() {
        })
     })
     .then(res => {
-      console.log(res);
+      // console.log(res);
       if (res.ok) {
         res.json().then((json) => {
-          console.log(json);
+          // console.log(json);
           navigate("/wikiblog/"+json.id);
           setDisplayNewWikiblogModal(false);
           setNewWikiblogErrorText("");
@@ -127,7 +127,7 @@ function App() {
         })
       } else {
         res.json().then((json) => {
-          console.log(json);
+          // console.log(json);
           setNewWikiblogErrorText(json.error);
         })
       }
@@ -202,7 +202,7 @@ function App() {
                   handleOpenSignup={handleOpenSignup}
                   handleLogout={handleLogout}/>
 
-          <div className="content">
+          <div>
           <Routes>
             <Route index element={<Homepage handleOpenNewWikiblog={handleOpenNewWikiblog} isLoggedIn={isLoggedIn}/>}/>
             <Route path="user">
@@ -211,12 +211,12 @@ function App() {
             <Route path="wikiblog">
               {/* <Route path="new" element={<NewWikiblog/>}/> */}
               <Route path=":wikiblogid">
-                <Route index element={<WikiblogPage showIndex={true}/>}/>
+                <Route index element={<WikiblogPage showIndex={true} currentUser={currentUser}/>}/>
                 <Route path="edit" element={<WikiblogEdit/>}/>
                 {/* <Route path="new" element={<NewWikiblogPage/>}/> */}
                 <Route path=":pageid">
                   <Route path="edit" element={<WikiblogPageEdit currentUser={currentUser} isLoggedIn={isLoggedIn}/>}/>
-                  <Route index element={<WikiblogPage/>}/>
+                  <Route index element={<WikiblogPage currentUser={currentUser}/>}/>
                 </Route>
               </Route>
             </Route>
