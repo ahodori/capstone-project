@@ -28,6 +28,7 @@ function App() {
   const [signupFormUsername, setSignupFormUsername] = useState("");
   const [signupFormPassword, setSignupFormPassword] = useState("");
   const [signupFormPasswordConfirmation, setSignupFormPasswordConfirmation] = useState("");
+  const [signupErrorText, setSignupErrorText] = useState("");
 
   const [newWikiblogFormName, setNewWikiblogFormName] = useState("");
   const [newWikiblogErrorText, setNewWikiblogErrorText] = useState("");
@@ -92,6 +93,64 @@ function App() {
   function handleSignup(e) {
     e.preventDefault();
     console.log("submitting signup");
+
+    fetch("/users", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: signupFormUsername,
+        password: signupFormPassword,
+        password_confirmation: signupFormPasswordConfirmation
+      })
+    })
+      .then(res => {
+        if (res.ok) {
+          res.json().then((json) => {
+            console.log(json);
+            fetch("/login", {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                username: signupFormUsername,
+                password: signupFormPassword
+              })
+            })
+              .then(res => {
+                if (res.ok) {
+                  res.json().then((json) => {
+                    setCurrentUser(json);
+                    setIsLoggedIn(true);
+                    setDisplaySignupModal(false);
+                    setSignupErrorText("");
+                    setSignupFormUsername("");
+                    setSignupFormPassword("");
+                    setSignupFormPasswordConfirmation("");
+                  })
+                } else {
+                  res.json().then((json) => {
+                    // console.log(json);
+                    console.error("Error:", json.error);
+                    setSignupErrorText(json.error);
+                  })
+                }
+              });
+          })
+        } else {
+          res.json().then((json) => {
+            // console.log(json);
+            console.error("Error:", json.error);
+            setSignupErrorText(json.error);
+            setSignupFormUsername("");
+            setSignupFormPassword("");
+            setSignupFormPasswordConfirmation("");
+          })
+        }
+      });
+
   }
 
 
@@ -179,6 +238,7 @@ function App() {
               <TextField autoFocus fullWidth label="Username" type="text" variant="standard" value={signupFormUsername} onChange={(e) => setSignupFormUsername(e.target.value)}/>
               <TextField fullWidth label="Password" type="password" variant="standard" value={signupFormPassword} onChange={(e) => setSignupFormPassword(e.target.value)}/>
               <TextField fullWidth label="Confirm Password" type="password" variant="standard" value={signupFormPasswordConfirmation} onChange={(e) => setSignupFormPasswordConfirmation(e.target.value)}/>
+              {signupErrorText && <Alert severity="error">{signupErrorText}</Alert>}
             </DialogContent>
             <DialogActions>
               <Button onClick={handleSignup}>Submit</Button>
