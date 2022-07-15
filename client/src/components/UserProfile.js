@@ -34,16 +34,16 @@ function UserProfile() {
                 <h2>{userData.username}</h2>
                 <List>
                     {userData.wikiblogs.map((wikiblog) => {
-                        return (<>
+                        return (<div key={wikiblog.id}>
                         <Divider/>
-                        <ListItem key={wikiblog.id}>
+                        <ListItem>
                             <ListItemText>
                             <b><Link to={"/wikiblog/"+wikiblog.id}>{wikiblog.name}</Link></b>
                             </ListItemText>
                             <p>{wikiblog.pagenum} pages</p>
                         </ListItem>
 
-                        </>)
+                        </div>)
                     })}                   
                 </List>
 

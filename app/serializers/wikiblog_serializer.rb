@@ -10,7 +10,7 @@ class WikiblogSerializer < ActiveModel::Serializer
   end
 
   def updated
-    object.pages.find_by(is_index: true).updated_at
+    object.pages.find_by(is_index: true).updated
   end
 
 end

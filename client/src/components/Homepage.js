@@ -60,7 +60,7 @@ function Homepage({handleOpenNewWikiblog, isLoggedIn}) {
                                     {wikiblogEntry.pagenum} pages 
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" sx={{ display: { xs: 'none', sm: 'block' } }}>
-                                    Updated {wikiblogEntry.updated.slice(0, 10)}, {wikiblogEntry.updated.slice(12,-5)}
+                                    Updated {wikiblogEntry.updated.slice(1,23)}
                                 </Typography>
                         </Card>
                             </Paper>)

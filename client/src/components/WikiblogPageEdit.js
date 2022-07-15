@@ -90,6 +90,7 @@ function WikiblogPageEdit({currentUser, isLoggedIn}) {
               if (res.ok) {
                 res.json().then((json) => {
                   // console.log(json);
+                  navigate("/wikiblog/"+wikiblogid+"/"+pageid)
                 })
               } else {
                 res.json().then((json) => {

@@ -34,6 +34,7 @@ function Header({currentUser,
                 </>
             :
                 <>
+                    <Typography component="span" variant="body" sx={{marginRight: 2}}>{currentUser.username}</Typography>
                     <Button sx={{ color: '#fff' }} onClick={handleLogout}>
                         Logout
                     </Button>
@@ -47,7 +48,7 @@ function Header({currentUser,
               </>
             :
               <>
-                <Link to={"/user/"+currentUser.id}><Avatar sx={{ bgcolor: deepPurple[500] }}/></Link>
+                <Link to={"/user/"+currentUser.id}><Avatar alt={currentUser.username} sx={{ bgcolor: deepPurple[500] }}/></Link>
               </>
             }
           </Box>

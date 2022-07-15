@@ -16,6 +16,11 @@ class Page < ApplicationRecord
         future_versions
     end
 
+    def updated
+        current_version = page_versions.where(is_current_version: true)
+        current_version.pluck(:updated_at).to_s
+    end
+
     private
 
     def set_index

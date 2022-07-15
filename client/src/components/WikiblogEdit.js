@@ -29,10 +29,10 @@ function WikiblogEdit() {
     useEffect(() => {
         fetch("/wikiblogs/"+wikiblogid)
         .then(res => {
-            console.log(res);
+            // console.log(res);
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log(json);
+                    // console.log(json);
                     setWikiblogData(json);
                 })
             } else {
@@ -53,7 +53,7 @@ function WikiblogEdit() {
         .then(res => {
             if (res.ok) {
             res.json().then((json) => {
-                console.log(json);
+                // console.log(json);
                 setSearchedUsers(json);
             })
             } else {
@@ -88,7 +88,7 @@ function WikiblogEdit() {
         .then(res => {
             if (res.ok) {
             res.json().then((json) => {
-                console.log(json);
+                // console.log(json);
                 window.location.reload();
             })
             } else {
@@ -118,7 +118,7 @@ function WikiblogEdit() {
         .then(res => {
             if (res.ok) {
             res.json().then((json) => {
-                console.log(json);
+                // console.log(json);
                 window.location.reload();
             })
             } else {
@@ -147,7 +147,7 @@ function WikiblogEdit() {
         .then(res => {
             if (res.ok) {
             res.json().then((json) => {
-                console.log(json);
+                // console.log(json);
                 window.location.reload();
             })
             } else {
@@ -190,7 +190,7 @@ function WikiblogEdit() {
         .then(res => {
             if (res.ok) {
             res.json().then((json) => {
-                console.log(json);
+                // console.log(json);
                 window.location.reload();
             })
             } else {
@@ -213,11 +213,11 @@ function WikiblogEdit() {
                     <DialogTitle>Add Editor</DialogTitle>
                     <DialogContent>
                         <DialogContentText>Type in a username to search, then click on who you would like to add as an editor.</DialogContentText>
-                        <TextField autoFocus autocomplete={"off"} label="username" fullWidth variant="standard" value={editorModalSearchText} onChange={updateEditorModalSearch}/>
+                        <TextField autoFocus autoComplete={"off"} label="username" fullWidth variant="standard" value={editorModalSearchText} onChange={updateEditorModalSearch}/>
                         <br/>
                         {searchedUsers.length > 0 ?
                             searchedUsers.map((user) => {
-                                return (<div>
+                                return (<div key={user.id}>
                                     <Button onClick={(e) => handleAddEditor(e, user)}>{user.username}</Button>
                                 </div>)
                             })
@@ -255,7 +255,7 @@ function WikiblogEdit() {
 
                 <Button onClick={handlePressAddPage}>Add Page</Button>
 
-                {wikiblogData.pages.reverse().map((page) => {
+                {wikiblogData.pages.map((page) => {
                     return (<div key={page.id}>
                         <p>{page.is_index && <>Index: </>} <Link to={"/wikiblog/"+wikiblogData.id+"/"+page.id}>{page.title}</Link></p>
                         <p>Updated {page.updated}</p>
@@ -266,7 +266,7 @@ function WikiblogEdit() {
                 })}
 
                 <h2>Editors:</h2>
-                <span>{wikiblogData.editorships.map((editor) => <><Link to={"/user/"+editor.user.id}>{editor.user.username}</Link> </>)}</span>
+                <span>{wikiblogData.editorships.map((editor) => <Link key={editor.user.id} to={"/user/"+editor.user.id}>{editor.user.username} </Link>)}</span>
                 <br/>
 
                 <Button onClick={handlePressAddEditor}>Add Editor</Button>

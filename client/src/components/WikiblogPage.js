@@ -19,7 +19,7 @@ function WikiblogPage({showIndex, currentUser}) {
             // console.log(res);
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log(json);
+                    // console.log(json);
                     setWikiblogData(json);
                 })
             } else {
