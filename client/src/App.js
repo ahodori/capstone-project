@@ -10,6 +10,8 @@ import NewWikiblog from "./components/NewWikiblog";
 import WikiblogPageEdit from "./components/WikiblogPageEdit";
 import UserProfile from "./components/UserProfile";
 
+import "./App.css";
+
 function App() {
 
   const [currentUser, setCurrentUser] = useState({});
@@ -200,8 +202,9 @@ function App() {
                   handleOpenSignup={handleOpenSignup}
                   handleLogout={handleLogout}/>
 
+          <div className="content">
           <Routes>
-            <Route index element={<Homepage handleOpenNewWikiblog={handleOpenNewWikiblog}/>}/>
+            <Route index element={<Homepage handleOpenNewWikiblog={handleOpenNewWikiblog} isLoggedIn={isLoggedIn}/>}/>
             <Route path="user">
               <Route path=":id" element={<UserProfile/>}/>
             </Route>
@@ -218,6 +221,8 @@ function App() {
               </Route>
             </Route>
           </Routes>
+          </div>
+
         </div>
   );
 }

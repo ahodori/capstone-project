@@ -19,7 +19,7 @@ function Header({currentUser,
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            <Link to={"/"}>Wikiblog!</Link>
+            <Link to={"/"} className="logolink">Wikiblog!</Link>
           </Typography>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

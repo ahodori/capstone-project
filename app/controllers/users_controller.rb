@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     end
 
     def show_session
-        render json: { error: "Not logged in" }, status: 401 unless session.include? :user_id
+        return render json: { error: "Not logged in" }, status: 401 unless session.include? :user_id
         
         user = User.find_by(id: session[:user_id])
         if user
