@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Alert } from "@mui/material";
 
 function WikiblogPageEdit({currentUser, isLoggedIn}) {
     const textareaRef = useRef();
@@ -27,6 +27,7 @@ function WikiblogPageEdit({currentUser, isLoggedIn}) {
             } else {
                 res.json().then((json) => {
                     console.log(json);
+
                 })
             }
         })
@@ -93,8 +94,11 @@ function WikiblogPageEdit({currentUser, isLoggedIn}) {
               } else {
                 res.json().then((json) => {
                   console.log(json);
-                  console.error("Error:", json.error);
-                  setSubmitErrorText(json.error);   
+                  if (json.error === "Not authorized") {
+                    setSubmitErrorText("Not authorized. Only editors can submit edits to a page.")
+                  } else {
+                    setSubmitErrorText(json.error);
+                  }
                 })
               }
             });
@@ -111,6 +115,7 @@ function WikiblogPageEdit({currentUser, isLoggedIn}) {
             <textarea ref={textareaRef} onChange={handleChangePageText} onKeyDown={handleKeyDown} cols={100} rows={50}/><br/>
             <Button type="submit">Submit change</Button>
         </form>
+        {submitErrorText && <Alert severity="error">{submitErrorText}</Alert>}
         <h2>Page preview:</h2>
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{pageText}</ReactMarkdown>
     </div>)

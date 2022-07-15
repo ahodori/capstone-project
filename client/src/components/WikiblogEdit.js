@@ -196,7 +196,11 @@ function WikiblogEdit() {
             } else {
             res.json().then((json) => {
                 console.log(json);
-                setGeneralErrorText(json.error);
+                if (json.error === "Not authorized") {
+                    setGeneralErrorText("Not authorized. Only editors may delete pages.")
+                } else {
+                    setGeneralErrorText(json.error);
+                }
             })
             }
         });
